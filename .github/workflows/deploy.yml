@@ -1,0 +1,23 @@
+name: deploy
+
+on:
+  repository_dispatch:
+    types: [push_candidate] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy new docker image to host
+        uses: appleboy/ssh-action@master
+        env:
+         IMAGE_NAME:    ${{ github.event.client_payload.image }}
+         SERVICE_NAME:  ${{ github.event.client_payload.service }}
+        with:
+          host:     ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key:      ${{ secrets.SSH_KEY }}
+          envs:     IMAGE_NAME,SERVICE_NAME
+          script:   docker service update --image $IMAGE_NAME $SERVICE_NAME
+       
