@@ -1,0 +1,15 @@
+---
+- block:
+    - name: Copy compose file to host
+      copy:
+        src: "{{ compose_src }}"
+        dest: "{{ compose_dest }}"
+
+    - name: Deploy stack from a compose file
+      docker_stack:
+        state: present
+        name: briana_stack
+        compose:
+          - "{{ compose_dest }}"
+
+  run_once: true

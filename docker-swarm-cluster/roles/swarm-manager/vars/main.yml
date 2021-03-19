@@ -1,0 +1,3 @@
+---
+join_token:     "{{ hostvars['leader-node']['swarm_cluster_info']['swarm_facts']['JoinTokens']['Manager'] }}"
+remote_addrs:   "{{ hostvars['leader-node']['ansible_default_ipv4']['address'] }}:2377"

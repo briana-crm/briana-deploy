@@ -1,0 +1,5 @@
+---
+- block:
+    - include: stacks/base-stack.yaml
+  run_once: true
+

@@ -1,0 +1,6 @@
+---
+- name: Join worker nodes
+  docker_swarm:
+    state: join
+    join_token: "{{ join_token }}"
+    remote_addrs: "{{ remote_addrs }}"

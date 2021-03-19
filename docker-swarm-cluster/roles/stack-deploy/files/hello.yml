@@ -1,0 +1,17 @@
+version: '3'
+services:
+  hello-service:
+    image: stefanscherer/whoami
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.hello-service.rule=Host(`briana-crm.tech`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.hello-service.entrypoints=websecure"
+        - "traefik.http.routers.hello-service.service=hello-service"
+        - "traefik.http.routers.hello-service.tls=true"
+        - "traefik.http.services.hello-service.loadbalancer.server.port=8080"
+    networks:
+      - briana_net
+networks:
+  briana_net:
+    external: true

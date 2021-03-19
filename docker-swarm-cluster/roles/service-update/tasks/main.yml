@@ -1,0 +1,4 @@
+---
+- name: Rolling update
+  shell: docker service update "{{ service_name }}" --image "{{ image_name }}"
+  run_once: true

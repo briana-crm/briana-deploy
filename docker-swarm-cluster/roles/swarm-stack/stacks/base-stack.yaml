@@ -1,0 +1,70 @@
+---
+- name: Deploy traefik configuration
+  template:
+    src: traefik.yaml.j2
+    dest: /etc/traefik.yaml
+
+- name: Deploy base stack
+  docker_stack:
+    name: base_stack
+    compose:
+      - version: '3'
+        services:
+          traefik-router:
+            image: traefik:v2.4
+            restart: always
+            ports:
+              - "80:80"
+              - "443:443"
+            command:
+              ## log settings
+              - "--log.level=DEBUG"
+
+              ## provider settings
+              - "--providers.docker=true"
+              - "--providers.docker.swarmMode=true"
+              - "--providers.docker.network=briana_net"
+              - "--providers.docker.exposedbydefault=false"
+
+              ## configuration file
+              - "--providers.file.filename=/etc/traefik.yaml"
+
+              ## entrypoints settings
+              - "--entrypoints.web.address=:80"
+              - "--entrypoints.websecure.address=:443"
+
+              ## redirections settings
+              - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+              - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+              - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+            volumes:
+              - /var/run/docker.sock:/var/run/docker.sock
+              - /etc/traefik.yaml:/etc/traefik.yaml
+              - /etc/pki/tls/:/etc/pki/tls/
+            deploy:
+              placement:
+                constraints:
+                  - node.labels.role == leader
+            networks:
+              - briana_net
+
+          datadog-agent:
+            image: datadog/agent:7
+            environment:
+              - DD_API_KEY={{ dd_api_key }}
+              - DD_LOGS_ENABLED=true
+              - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+            volumes:
+              - /proc/:/host/proc/:ro
+              - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+              - /var/run/docker.sock:/var/run/docker.sock:ro
+            networks:
+              - briana_net
+            deploy:
+              mode: global
+
+        networks:
+          briana_net:
+            external: true
+
+  run_once: true

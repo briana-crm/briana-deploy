@@ -1,0 +1,6 @@
+- name: Leave from swarm
+  hosts: all
+
+  tasks:
+    - shell: docker swarm leave -f
+      ignore_errors: yes

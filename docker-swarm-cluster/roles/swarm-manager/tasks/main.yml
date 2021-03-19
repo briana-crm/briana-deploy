@@ -1,0 +1,14 @@
+---
+- name: Check if Swarm is Already Initialized
+  shell: docker node ls
+  register: swarm_status
+  ignore_errors: true
+  tags: swarm
+
+- name: Join manager nodes
+  docker_swarm:
+    state: join
+    join_token: "{{ join_token }}"
+    remote_addrs: "{{ remote_addrs }}"
+  when: swarm_status.rc != 0
+

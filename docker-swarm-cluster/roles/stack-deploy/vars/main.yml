@@ -1,0 +1,4 @@
+---
+# compose_file -> extravar
+compose_src:  "{{ compose_file }}"
+compose_dest: "/etc/{{ compose_file }}"

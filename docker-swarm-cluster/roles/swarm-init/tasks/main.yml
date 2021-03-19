@@ -1,0 +1,16 @@
+---
+- name: Init a new Swarm cluster
+  docker_swarm:
+    state: present
+  register: swarm_cluster_info
+
+- name: Add leader label
+  docker_node:
+    hostname: "{{ ansible_hostname }}"
+    labels:
+      role: leader
+
+- name: Create network
+  docker_network:
+    name: briana_net
+    driver: overlay

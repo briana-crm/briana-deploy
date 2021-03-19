@@ -1,0 +1,25 @@
+---
+ - hosts: all
+   roles:
+     - common
+
+ - hosts: leader
+   roles:
+     - swarm-init
+
+ - hosts: workers
+   roles:
+     - swarm-worker
+
+ - hosts: managers
+   roles:
+     - swarm-manager
+
+     - role: swarm-stack
+       tags: base
+
+     - role: service-update
+       tags: update
+
+     - role: stack-deploy
+       tags: deploy

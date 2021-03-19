@@ -1,26 +1,25 @@
-name: Deploy new docker stack
+name: Rolling update
 
 on:
-  workflow_dispatch:
-    inputs:
-      compose_file:
-        description: 'Docker compose filename'
-        required: true
+  repository_dispatch:
+    types: [push_candidate]
 
 jobs:
-  deploy:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy docker stack with Ansible Playbook
+      - name: Update service with Ansible Playbook
         uses: arillso/action.playbook@master
         with:
           playbook: docker-swarm-cluster/main.yml
           inventory: docker-swarm-cluster/hosts.yml
           vault_password: ${{ secrets.VAULT_PASSWORD }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          extra_vars: compose_file=${{ github.event.inputs.compose_file }}
-          tags: deploy
+          extra_vars: |
+            service_name=${{ github.event.client_payload.service }}
+            image_name=${{ github.event.client_payload.image }}
+          tags: update
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
           ANSIBLE_DEPRECATION_WARNINGS: 'false'
