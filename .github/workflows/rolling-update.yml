@@ -1,19 +1,18 @@
-name: Rolling update
+name: Update docker service in swarm cluster
 
 on:
   repository_dispatch:
-    types: [push_candidate]
+    types: [rolling_update]
 
 jobs:
   update:
     runs-on: ubuntu-latest
-
     steps:
       - name: Update service with Ansible Playbook
         uses: arillso/action.playbook@master
         with:
           playbook: docker-swarm-cluster/main.yml
-          inventory: docker-swarm-cluster/hosts.yml
+          inventory: docker-swarm-cluster/hosts.txt
           vault_password: ${{ secrets.VAULT_PASSWORD }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           extra_vars: |
