@@ -26,7 +26,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ DH_REPO_NAME }}
+          repository: ${{ env.DH_REPO_NAME }}
           tags: ${{ env.IMAGE_TAG }},latest
 
   dispatch:
