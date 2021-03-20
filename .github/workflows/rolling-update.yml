@@ -8,6 +8,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Update service with Ansible Playbook
         uses: arillso/action.playbook@master
         with:
