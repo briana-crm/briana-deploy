@@ -1,7 +1,7 @@
 name: Build image, push it to Docker Hub and dispatch rolling update action.
 env:
   DH_REPO_NAME       : "ttre16/${{ github.event.client_payload.repo_name }}"
-  SERVICE_NAME       : "$DH_REPO_NAME"
+  SERVICE_NAME       : "${{ github.event.client_payload.service_name }}"
   IMAGE_TAG          : "${{ github.event.client_payload.commit_hash }}"
   IMAGE_NAME         : "$DH_REPO_NAME:$IMAGE_TAG"
   CHECKOUT_REPO_NAME : "briana-crm/${{ github.event.client_payload.repo_name }}"
