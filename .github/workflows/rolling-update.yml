@@ -17,8 +17,8 @@ jobs:
           vault_password: ${{ secrets.VAULT_PASSWORD }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           extra_vars: |
-            service_name=${{ github.event.client_payload.service }}
-            image_name=${{ github.event.client_payload.image }}
+            service_name=${{ github.event.client_payload.service_name }}
+            image_name=${{ github.event.client_payload.image_name }}
           tags: update
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
