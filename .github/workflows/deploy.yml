@@ -21,6 +21,7 @@ jobs:
           vault_password: ${{ secrets.VAULT_PASSWORD }}
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           extra_vars: compose_file=${{ github.event.inputs.compose_file }}
+          ansible_ssh_common_args: StrictHostKeyChecking=no 
           tags: deploy
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'false'
