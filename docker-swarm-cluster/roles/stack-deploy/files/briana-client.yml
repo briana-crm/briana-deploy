@@ -1,0 +1,19 @@
+version: '3'
+services:
+  briana-client:
+    image: ttre16/briana-client:latest
+    restart: always
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.briana-client.rule=Host(`briana-crm.tech`)"
+        - "traefik.http.routers.briana-client.entrypoints=websecure"
+        - "traefik.http.routers.briana-client.service=briana-client"
+        - "traefik.http.routers.briana-client.tls=true"
+        - "traefik.http.services.briana-client.loadbalancer.server.port=9999"
+    networks:
+      - briana_net
+networks:
+  briana_net:
+    external: true
+
