@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   briana-customer:
     image: ttre16/briana-customer:latest
@@ -9,7 +9,7 @@ services:
       endpoint_mode: dnsrr
       resources:
         limits:
-          memory: 128M
+          memory: 256M
     networks:
       - briana_api
 networks:
