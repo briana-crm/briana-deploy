@@ -7,7 +7,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 128M
+          memory: 256M
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.briana-gateway.rule=Host(`briana-crm.tech`) && PathPrefix(`/api/`)"
