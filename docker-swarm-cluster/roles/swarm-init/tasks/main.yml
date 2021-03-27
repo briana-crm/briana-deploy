@@ -10,7 +10,10 @@
     labels:
       role: leader
 
-- name: Create network
+- name: Create docker networks
   docker_network:
-    name: briana_net
+    name: "{{ item }}"
     driver: overlay
+  loop:
+    - briana_net
+    - btiana_api

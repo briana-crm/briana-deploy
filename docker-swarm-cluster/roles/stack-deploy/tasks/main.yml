@@ -1,5 +1,10 @@
 ---
 - block:
+    - name: Copy env file to host
+      template:
+        src: "{{ env_src }}"
+        dest: "{{ env_dest }}"
+
     - name: Copy compose file to host
       copy:
         src: "{{ compose_src }}"
