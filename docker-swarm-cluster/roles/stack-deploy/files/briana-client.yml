@@ -1,8 +1,7 @@
-version: '3'
+version: '3.3'
 services:
   briana-client:
     image: ttre16/briana-client:latest
-    restart: always
     deploy:
       labels:
         - "traefik.enable=true"

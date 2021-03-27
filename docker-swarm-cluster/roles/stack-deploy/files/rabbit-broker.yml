@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  rabbit-broker:
+    image: rabbitmq:3-management
+    env_file:
+      - briana.env
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    ports:
+      - "5672:5672"
+    networks:
+      briana_api:
+        aliases:
+          - broker
+networks:
+  briana_api:
+    external: true

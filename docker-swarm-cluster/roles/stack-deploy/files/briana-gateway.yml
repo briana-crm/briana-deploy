@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  briana-gateway:
+    image: ttre16/briana-gateway:latest
+    env_file:
+      - briana.env
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.briana-gateway.rule=Host(`briana-crm.tech`) && PathPrefix(`/api/`)"
+        - "traefik.http.routers.briana-gateway.entrypoints=websecure"
+        - "traefik.http.routers.briana-gateway.service=briana-gateway"
+        - "traefik.http.routers.briana-gateway.tls=true"
+        - "traefik.http.services.briana-gateway.loadbalancer.server.port=9000"
+    networks:
+      - briana_net
+      - briana_api
+networks:
+  briana_net:
+    external: true
+  briana_api:
+    external: true
+

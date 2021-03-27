@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  briana-config:
+    image: ttre16/briana-config:latest
+    env_file:
+      - briana.env
+    ports:
+    - "8888:8888"
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    networks:
+      briana_api:
+        aliases:
+          - config
+networks:
+  briana_api:
+    external: true
+

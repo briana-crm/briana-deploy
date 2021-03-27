@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  briana-discovery:
+    image: ttre16/briana-discovery:latest
+    env_file:
+      - briana.env
+    environment:
+      - HOSTNAME=discovery
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    ports:
+      - "8761:8761"
+    networks:
+      briana_api:
+        aliases:
+          - discovery
+networks:
+  briana_api:
+    external: true
